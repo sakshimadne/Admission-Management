@@ -77,6 +77,39 @@ Render Deployment
 
 📁 Project Structure
 📦 Root Structure
+
+## 📁 Project Structure
+
+```bash
+admission-crm/
+│
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── layouts/
+│   │   ├── pages/
+│   │   ├── utils/
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
+│   ├── package.json
+│   └── vite.config.js
+│
+├── backend/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── server.js
+│   └── .env
+│
+└── README.md
+```
+
 admission-crm/
 │
 ├── frontend/
