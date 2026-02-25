@@ -124,10 +124,11 @@ exports.confirmAdmission = async (req, res) => {
       return res.status(400).json({ message: 'Already confirmed' })
     }
 
-    // Generate simple admission number
-    const count = await Admission.countDocuments()
+    const count = await Admission.countDocuments({ confirmed: true })
 
-    const admissionNumber = `ADM-2026-${(count + 1)
+    const year = new Date().getFullYear()
+
+    const admissionNumber = `ADM-${year}-${(count + 1)
       .toString()
       .padStart(4, '0')}`
 
@@ -135,6 +136,12 @@ exports.confirmAdmission = async (req, res) => {
     admission.admissionNumber = admissionNumber
 
     await admission.save()
+
+ 
+    await Applicant.findByIdAndUpdate(
+      admission.applicantId,
+      { status: 'Confirmed' }
+    )
 
     res.json(admission)
   } catch (error) {
