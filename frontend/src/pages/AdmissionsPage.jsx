@@ -6,6 +6,7 @@ import {
 } from "../api/admissionApi";
 import { updateApplicant } from "../api/applicantApi";
 
+
 const AdmissionsPage = () => {
   const [admissions, setAdmissions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -75,143 +76,191 @@ const filteredAdmissions = admissions.filter((admission) => {
 
   return true;
 });
-  return (
-    <div className="p-6">
-      <h1 className="text-2xl font-semibold mb-6">Admissions</h1>
-<div className="flex gap-4 mb-6">
-  <button
-    onClick={() => setFilter("ALL")}
-    className="px-4 py-2 bg-gray-200 rounded"
-  >
-    All
-  </button>
+ return (
+  <div className="max-w-7xl mx-auto space-y-10">
 
-  <button
-    onClick={() => setFilter("PENDING")}
-    className="px-4 py-2 bg-yellow-200 rounded"
-  >
-    Pending Fees
-  </button>
+    {/* ===== PAGE HEADER ===== */}
+    <div>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+        Admissions
+      </h1>
+      <p className="text-gray-500 dark:text-gray-400 mt-1">
+        Manage fee payments and confirmations
+      </p>
+    </div>
 
-  <button
-    onClick={() => setFilter("PAID")}
-    className="px-4 py-2 bg-blue-200 rounded"
-  >
-    Paid
-  </button>
+    {/* ===== FILTER BUTTONS ===== */}
+    <div className="flex flex-wrap gap-3">
 
-  <button
-    onClick={() => setFilter("CONFIRMED")}
-    className="px-4 py-2 bg-green-200 rounded"
-  >
-    Confirmed
-  </button>
-</div>
-      <div className="bg-white shadow rounded-xl overflow-hidden">
+      {[
+        { label: "All", value: "ALL" },
+        { label: "Pending Fees", value: "PENDING" },
+        { label: "Paid", value: "PAID" },
+        { label: "Confirmed", value: "CONFIRMED" },
+      ].map((btn) => (
+        <button
+          key={btn.value}
+          onClick={() => setFilter(btn.value)}
+          className={`
+            h-11 px-5 rounded-xl text-sm font-medium transition
+            ${
+              filter === btn.value
+                ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
+                : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+            }
+          `}
+        >
+          {btn.label}
+        </button>
+      ))}
+    </div>
+
+    {/* ===== TABLE CARD ===== */}
+    <section
+      className="
+        bg-gray-50 dark:bg-gray-900/60
+        border border-gray-200 dark:border-gray-800
+        rounded-2xl
+        shadow-sm
+        overflow-hidden
+      "
+    >
+      <div className="overflow-x-auto">
         <table className="w-full text-left">
-          <thead className="bg-gray-100 text-gray-600 text-sm">
+
+          <thead className="bg-gray-100 dark:bg-gray-800 text-sm text-gray-600 dark:text-gray-300">
             <tr>
-                <th className="p-4">Admission No</th>
-              <th className="p-4">Applicant</th>
-              <th className="p-4">Program</th>
-              <th className="p-4">Quota</th>
-              <th className="p-4">Fee Status</th>
-              <th className="p-4">Confirmed</th>
-              <th className="p-4">Actions</th>
+              <th className="p-4 font-medium">Admission No</th>
+              <th className="p-4 font-medium">Applicant</th>
+              <th className="p-4 font-medium">Program</th>
+              <th className="p-4 font-medium">Quota</th>
+              <th className="p-4 font-medium">Fee Status</th>
+              <th className="p-4 font-medium">Confirmed</th>
+              <th className="p-4 font-medium">Actions</th>
             </tr>
           </thead>
 
-         <tbody>
-  
-  {filteredAdmissions.length === 0 ? (
-  <tr>
-    <td colSpan="7" className="text-center p-6 text-gray-500">
-      No admissions found.
-    </td>
-  </tr>
-) : 
-  
-  (filteredAdmissions.map((admission) => (
-    <tr key={admission._id} className="border-t">
+          <tbody>
+            {filteredAdmissions.length === 0 ? (
+              <tr>
+                <td colSpan="7" className="text-center p-6 text-gray-500 dark:text-gray-400">
+                  No admissions found.
+                </td>
+              </tr>
+            ) : (
+              filteredAdmissions.map((admission) => (
+                <tr
+                  key={admission._id}
+                  className="
+                    border-t border-gray-200 dark:border-gray-800
+                    hover:bg-gray-100 dark:hover:bg-gray-800/40
+                    transition
+                  "
+                >
 
-      {/* <td className="p-4">{admission.admissionNumber}</td> */}
-      <td className="p-4">
-{admission.confirmed && admission.admissionNumber ? (
-  admission.admissionNumber
-) : (
-  <span className="text-gray-500 italic">
-    After Confirmation
-  </span>
-)}
-</td>
+                  {/* Admission Number */}
+                  <td className="p-4 text-gray-700 dark:text-gray-300">
+                    {admission.confirmed && admission.admissionNumber ? (
+                      admission.admissionNumber
+                    ) : (
+                      <span className="text-gray-500 italic">
+                        After Confirmation
+                      </span>
+                    )}
+                  </td>
 
-      <td className="p-4">
-        {admission.applicantId?.name}
-      </td>
+                  {/* Applicant */}
+                  <td className="p-4 text-gray-700 dark:text-gray-300">
+                    {admission.applicantId?.name}
+                  </td>
 
-      <td className="p-4">
-        {admission.programId?.name}
-      </td>
+                  {/* Program */}
+                  <td className="p-4 text-gray-700 dark:text-gray-300">
+                    {admission.programId?.name}
+                  </td>
 
-      <td className="p-4">
-        {admission.quotaType}
-      </td>
+                  {/* Quota */}
+                  <td className="p-4 text-gray-700 dark:text-gray-300">
+                    {admission.quotaType}
+                  </td>
 
-      <td className="p-4">
-        <span
-          className={`px-3 py-1 rounded-full text-xs ${
-            admission.feeStatus === "Paid"
-              ? "bg-green-100 text-green-700"
-              : "bg-yellow-100 text-yellow-700"
-          }`}
-        >
-          {admission.feeStatus}
-        </span>
-      </td>
+                  {/* Fee Status */}
+                  <td className="p-4">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                        admission.feeStatus === "Paid"
+                          ? "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400"
+                          : "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-400"
+                      }`}
+                    >
+                      {admission.feeStatus}
+                    </span>
+                  </td>
 
-   
-      <td className="p-4">
-  {admission.confirmed ? (
-    <span className="text-green-600 font-medium">
-      Confirmed
-    </span>
-  ) : (
-    <span className="text-yellow-600 font-medium">
-      Not Confirmed
-    </span>
-  )}
-</td>
+                  {/* Confirmed */}
+                  <td className="p-4">
+                    {admission.confirmed ? (
+                      <span className="text-green-600 dark:text-green-400 font-semibold">
+                        Confirmed
+                      </span>
+                    ) : (
+                      <span className="text-yellow-600 dark:text-yellow-400 font-semibold">
+                        Not Confirmed
+                      </span>
+                    )}
+                  </td>
 
-      <td className="p-4 space-x-2">
+                  {/* Actions */}
+                  <td className="p-4 space-y-2">
 
-       {admission.feeStatus !== "Paid" && (
-  <button
-    onClick={() => handleFeeUpdate(admission._id)}
-    disabled={loadingId === admission._id}
-    className="px-3 py-1 bg-indigo-600 text-white rounded text-sm disabled:opacity-50"
-  >
-    {loadingId === admission._id ? "Processing..." : "Mark Paid"}
-  </button>
-)}
+                    {admission.feeStatus !== "Paid" && (
+                      <button
+                        onClick={() => handleFeeUpdate(admission._id)}
+                        disabled={loadingId === admission._id}
+                        className="
+                          h-10 px-4 rounded-lg
+                          bg-indigo-600 text-white text-sm
+                          hover:opacity-90 transition
+                          disabled:opacity-50
+                        "
+                      >
+                        {loadingId === admission._id
+                          ? "Processing..."
+                          : "Mark Paid"}
+                      </button>
+                    )}
 
-        {!admission.confirmed && admission.feeStatus === "Paid" && (
-  <button
-    onClick={() => handleConfirm(admission)}
-    disabled={loadingId === admission._id}
-    className="px-3 py-1 bg-green-600 text-white rounded text-sm disabled:opacity-50"
-  >
-    {loadingId === admission._id ? "Processing..." : "Confirm"}
-  </button>
-)}
+                    {!admission.confirmed &&
+                      admission.feeStatus === "Paid" && (
+                        <button
+                          onClick={() => handleConfirm(admission)}
+                          disabled={loadingId === admission._id}
+                          className="
+                            h-10 px-4 rounded-lg
+                            bg-green-600 text-white text-sm
+                            hover:opacity-90 transition
+                            disabled:opacity-50
+                          "
+                        >
+                          {loadingId === admission._id
+                            ? "Processing..."
+                            : "Confirm"}
+                        </button>
+                      )}
 
-      </td>
-    </tr>
-  )))}
-</tbody>
+                  </td>
+
+                </tr>
+              ))
+            )}
+          </tbody>
+
         </table>
       </div>
-    </div>
-  );
+    </section>
+
+  </div>
+);
 };
 
 export default AdmissionsPage;

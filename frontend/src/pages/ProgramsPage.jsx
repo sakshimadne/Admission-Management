@@ -64,77 +64,126 @@ const [entryType, setEntryType] = useState("");
     }
   };
 
-  const getDepartmentName = (id) => {
-    const dept = departments.find((d) => d._id === id);
-    return dept ? dept.name : "Unknown";
-  };
+  // const getDepartmentName = (id) => {
+  //   const dept = departments.find((d) => d._id === id);
+  //   return dept ? dept.name : "Unknown";
+  // };
 
   if (loading) return <div className="p-6">Loading programs...</div>;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-semibold mb-6">Programs</h1>
+  <div className="max-w-7xl mx-auto space-y-10">
 
-      {/* Create Program */}
-      <form onSubmit={handleCreate} className="grid grid-cols-5 gap-4 mb-6">
-        <input
-          type="text"
-          placeholder="Program Name"
-          className="border px-3 py-2 rounded"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
 
+    <div>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+        Programs
+      </h1>
+      <p className="text-gray-500 dark:text-gray-400 mt-1">
+        Manage academic programs under departments
+      </p>
+    </div>
+
+    <section
+      className="
+        bg-white dark:bg-gray-900
+        border border-gray-100 dark:border-gray-800
+        rounded-2xl
+        shadow-sm
+        p-8
+        transition-colors duration-300
+      "
+    >
+      <h2 className="text-lg font-semibold mb-6 text-gray-900 dark:text-white">
+        Create Program
+      </h2>
+
+      <form
+        onSubmit={handleCreate}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
+     
+       <div>
+
+
+  {/* <select
+    className="input-field"
+    value={name}
+    onChange={(e) => setName(e.target.value)}
+    required
+  >
+    <option value="">Select Program</option>
+
+    {programs.map((program) => (
+      <option key={program._id} value={program.name}>
+        {program.name}
+      </option>
+    ))}
+  </select> */}
+  <input
+  type="text"
+  placeholder="Program Name"
+  className="input-field"
+  value={name}
+  onChange={(e) => setName(e.target.value)}
+  required
+/>
+</div>
+
+ 
         <input
           type="text"
           placeholder="Code"
-          className="border px-3 py-2 rounded"
+          className="input-field"
           value={code}
           onChange={(e) => setCode(e.target.value)}
           required
         />
 
+
         <input
-          type="text"
+          type="number"
           placeholder="Academic Year"
-          className="border px-3 py-2 rounded"
+          className="input-field"
           value={academicYear}
           onChange={(e) => setAcademicYear(e.target.value)}
           required
         />
-<select
-  className="border px-3 py-2 rounded"
-  value={courseType}
-  onChange={(e) => setCourseType(e.target.value)}
-  required
->
-  <option value="">Select Course Type</option>
-  <option value="UG">UG</option>
-  <option value="PG">PG</option>
-</select>
 
-<select
-  className="border px-3 py-2 rounded"
-  value={entryType}
-  onChange={(e) => setEntryType(e.target.value)}
-  required
->
-  <option value="">Select Entry Type</option>
-  <option value="Regular">Regular</option>
-  <option value="Lateral">Lateral</option>
-</select>
+  
+        <select
+          className="input-field"
+          value={courseType}
+          onChange={(e) => setCourseType(e.target.value)}
+          required
+        >
+          <option value="">Select Course Type</option>
+          <option value="UG">UG</option>
+          <option value="PG">PG</option>
+        </select>
+
+        <select
+          className="input-field"
+          value={entryType}
+          onChange={(e) => setEntryType(e.target.value)}
+          required
+        >
+          <option value="">Select Entry Type</option>
+          <option value="Regular">Regular</option>
+          <option value="Lateral">Lateral</option>
+        </select>
+
         <input
           type="number"
           placeholder="Intake"
-          className="border px-3 py-2 rounded"
+          className="input-field"
           value={intake}
           onChange={(e) => setIntake(e.target.value)}
           required
         />
 
         <select
-          className="border px-3 py-2 rounded"
+          className="input-field lg:col-span-2"
           value={departmentId}
           onChange={(e) => setDepartmentId(e.target.value)}
           required
@@ -147,49 +196,98 @@ const [entryType, setEntryType] = useState("");
           ))}
         </select>
 
-        <button className="col-span-5 bg-indigo-600 text-white px-4 py-2 rounded">
-          Create Program
-        </button>
+ 
+        <div className="lg:col-span-3">
+          <button
+            className="
+              w-full h-11 rounded-xl
+              bg-gradient-to-r from-indigo-600 to-purple-600
+              hover:opacity-90
+              text-white font-medium
+              transition
+            "
+          >
+            Create Program
+          </button>
+        </div>
       </form>
+    </section>
 
-      {/* Programs Table */}
-      <div className="bg-white shadow rounded-xl overflow-hidden">
+   
+    <section
+      className="
+        bg-white dark:bg-gray-900
+        border border-gray-100 dark:border-gray-800
+        rounded-2xl
+        shadow-sm
+        overflow-hidden
+        transition-colors duration-300
+      "
+    >
+      <div className="px-8 py-6 border-b border-gray-100 dark:border-gray-800">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+          Program List
+        </h2>
+      </div>
+
+      <div className="overflow-x-auto">
         <table className="w-full text-left">
-          <thead className="bg-gray-100 text-sm text-gray-600">
+          <thead className="bg-gray-50 dark:bg-gray-800 text-sm text-gray-600 dark:text-gray-300">
             <tr>
-              <th className="p-4">Program</th>
-              <th className="p-4">Code</th>
-              <th className="p-4">Department</th>
-              <th className="p-4">Year</th>
-              <th className="p-4">Intake</th>
+              <th className="p-4 font-medium">Program</th>
+              <th className="p-4 font-medium">Code</th>
+              <th className="p-4 font-medium">Department</th>
+              <th className="p-4 font-medium">Year</th>
+              <th className="p-4 font-medium">Intake</th>
             </tr>
           </thead>
 
           <tbody>
             {programs.length === 0 ? (
               <tr>
-                <td colSpan="5" className="p-4 text-center text-gray-500">
+                <td
+                  colSpan="5"
+                  className="p-6 text-center text-gray-500 dark:text-gray-400"
+                >
                   No programs found
                 </td>
               </tr>
             ) : (
               programs.map((program) => (
-                <tr key={program._id} className="border-t">
-                  <td className="p-4">{program.name}</td>
-                  <td className="p-4">{program.code}</td>
-                  <td className="p-4">
-                    {getDepartmentName(program.departmentId)}
+                <tr
+                  key={program._id}
+                  className="
+                    border-t border-gray-100 dark:border-gray-800
+                    hover:bg-gray-50 dark:hover:bg-gray-800/50
+                    transition
+                  "
+                >
+                  <td className="p-4 text-gray-800 dark:text-gray-200">
+                    {program.name}
                   </td>
-                  <td className="p-4">{program.academicYear}</td>
-                  <td className="p-4">{program.intake}</td>
+                  <td className="p-4 text-gray-600 dark:text-gray-400">
+                    {program.code}
+                  </td>
+                  <td className="p-4 text-gray-600 dark:text-gray-400">
+                 
+                    {program.departmentId?.name || "Unknown"}
+                  </td>
+                  <td className="p-4 text-gray-600 dark:text-gray-400">
+                    {program.academicYear}
+                  </td>
+                  <td className="p-4 text-gray-600 dark:text-gray-400">
+                    {program.intake}
+                  </td>
                 </tr>
               ))
             )}
           </tbody>
         </table>
       </div>
-    </div>
-  );
+    </section>
+
+  </div>
+);
 };
 
 export default ProgramsPage;

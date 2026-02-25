@@ -15,12 +15,22 @@ import { Toaster } from "react-hot-toast";
 import EditApplicantPage from "./pages/EditApplicantPage";
 import CreateApplicantPage from "./pages/CreateApplicantPage";
 import VerifyApplicantPage from "./pages/VerifyApplicantPage";
+import RegisterPage from "./pages/RegisterPage";
+import { useEffect } from "react";
 function App() {
+  useEffect(() => {
+  const savedTheme = localStorage.getItem("theme");
+
+  if (savedTheme === "dark") {
+    document.documentElement.classList.add("dark");
+  }
+}, []);
   return (
     <>
   <Toaster position="top-right" />
       <Routes>
       <Route path="/login" element={<LoginPage />} />
+       <Route path="/register" element={<RegisterPage />} />
 
       <Route
         path="/"

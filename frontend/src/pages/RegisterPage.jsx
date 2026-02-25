@@ -1,17 +1,17 @@
 import { useState } from "react";
-import { loginUser } from "../api/authApi";
-import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "../api/authApi";
 import toast from "react-hot-toast";
-import { Eye, EyeOff, LogIn } from "lucide-react";
+import { Eye, EyeOff, UserPlus } from "lucide-react";
 
-const LoginPage = () => {
-  const { login } = useAuth();
+const RegisterPage = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
+    role: "Admission Officer",
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -29,12 +29,12 @@ const LoginPage = () => {
 
     try {
       setLoading(true);
-      const data = await loginUser(formData);
-      login(data);
-      toast.success("Login successful");
-      navigate("/");
+      const data = await registerUser(formData);
+
+      toast.success("User registered successfully");
+      navigate("/login");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Invalid credentials");
+      toast.error(error.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -61,11 +61,21 @@ const LoginPage = () => {
         <div className="bg-white p-8 rounded-2xl shadow-lg w-[420px]">
 
           <div className="flex items-center gap-2 mb-6">
-            <LogIn className="text-indigo-600" />
-            <h2 className="text-2xl font-semibold">Welcome Back</h2>
+            <UserPlus className="text-indigo-600" />
+            <h2 className="text-2xl font-semibold">Create Account</h2>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              required
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"
+            />
 
             <input
               type="email"
@@ -97,23 +107,35 @@ const LoginPage = () => {
               </button>
             </div>
 
+   
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"
+            >
+              <option value="Admin">Admin</option>
+              <option value="Admission Officer">Admission Officer</option>
+              <option value="Management">Management</option>
+            </select>
+
             <button
               type="submit"
               disabled={loading}
               className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 rounded-xl font-medium hover:opacity-90 transition disabled:opacity-50"
             >
-              {loading ? "Signing in..." : "Login"}
+              {loading ? "Creating Account..." : "Register"}
             </button>
 
           </form>
 
           <p className="text-sm text-center mt-4 text-gray-600">
-            Don't have an account?{" "}
+            Already have an account?{" "}
             <span
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/login")}
               className="text-indigo-600 cursor-pointer hover:underline"
             >
-              Register
+              Login
             </span>
           </p>
 
@@ -123,4 +145,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

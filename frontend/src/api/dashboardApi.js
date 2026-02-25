@@ -19,3 +19,4 @@ export const fetchSeatAvailability = async (token) => {
 
   return response.data;
 };
+

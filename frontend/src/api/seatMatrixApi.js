@@ -10,3 +10,8 @@ export const getSeatMatrixByProgram = async (programId) => {
   const response = await API.get(`/seat-matrix/${programId}`);
   return response.data;
 };
+
+
+
+
+

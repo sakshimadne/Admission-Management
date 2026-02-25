@@ -47,73 +47,161 @@ const DepartmentsPage = () => {
     }
   };
 
-  const getCampusName = (id) => {
-    const campus = campuses.find((c) => c._id === id);
-    return campus ? campus.name : "Unknown";
-  };
-
+  // const getCampusName = (id) => {
+  //   const campus = campuses.find((c) => c._id === id);
+  //   return campus ? campus.name : "Unknown";
+  // };
+  
   if (loading) return <div className="p-6">Loading departments...</div>;
 
-  return (
-    <div className="p-6">
-      <h1 className="text-2xl font-semibold mb-6">Departments</h1>
+return (
+  <div className="max-w-7xl mx-auto space-y-10">
 
-      {/* Create Department */}
-      <form onSubmit={handleCreate} className="flex gap-4 mb-6">
-        <input
-          type="text"
-          placeholder="Department Name"
-          className="border px-3 py-2 rounded w-60"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
+    <div>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+        Departments
+      </h1>
+      <p className="text-gray-500 dark:text-gray-400 mt-1">
+        Manage departments under campuses
+      </p>
+    </div>
 
-        <select
-          className="border px-3 py-2 rounded w-60"
-          value={campusId}
-          onChange={(e) => setCampusId(e.target.value)}
-          required
+
+    <section
+      className="
+        bg-white dark:bg-gray-900
+        border border-gray-100 dark:border-gray-800
+        rounded-2xl
+        shadow-sm
+        p-8
+        transition-colors duration-300
+      "
+    >
+      <h2 className="text-lg font-semibold mb-6 text-gray-900 dark:text-white">
+        Create Department
+      </h2>
+
+      <form
+        onSubmit={handleCreate}
+        className="flex flex-wrap gap-4 items-end"
+      >
+
+        <div className="flex flex-col">
+          <label className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+            Department Name
+          </label>
+          <input
+            type="text"
+            placeholder="Computer Science"
+            className="
+              w-64 px-4 py-2 rounded-xl
+              border border-gray-200 dark:border-gray-700
+              bg-white dark:bg-gray-800
+              text-gray-800 dark:text-white
+              focus:ring-2 focus:ring-indigo-500
+              outline-none transition
+            "
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <label className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+            Campus
+          </label>
+          <select
+            className="
+              w-64 px-4 py-2 rounded-xl
+              border border-gray-200 dark:border-gray-700
+              bg-white dark:bg-gray-800
+              text-gray-800 dark:text-white
+              focus:ring-2 focus:ring-indigo-500
+              outline-none transition
+            "
+            value={campusId}
+            onChange={(e) => setCampusId(e.target.value)}
+            required
+          >
+            <option value="">Select Campus</option>
+            {campuses.map((campus) => (
+              <option key={campus._id} value={campus._id}>
+                {campus.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+
+        <button
+          className="
+            h-10 px-6 rounded-xl
+            bg-indigo-600 hover:bg-indigo-700
+            text-white font-medium
+            transition
+          "
         >
-          <option value="">Select Campus</option>
-          {campuses.map((campus) => (
-            <option key={campus._id} value={campus._id}>
-              {campus.name}
-            </option>
-          ))}
-        </select>
-
-        <button className="bg-indigo-600 text-white px-4 py-2 rounded">
           Create
         </button>
       </form>
+    </section>
 
-      {/* Table */}
-      <div className="bg-white shadow rounded-xl overflow-hidden">
+
+    <section
+      className="
+        bg-white dark:bg-gray-900
+        border border-gray-100 dark:border-gray-800
+        rounded-2xl
+        shadow-sm
+        overflow-hidden
+        transition-colors duration-300
+      "
+    >
+      <div className="px-8 py-6 border-b border-gray-100 dark:border-gray-800">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+          Department List
+        </h2>
+      </div>
+
+      <div className="overflow-x-auto">
         <table className="w-full text-left">
-          <thead className="bg-gray-100 text-sm text-gray-600">
+          <thead className="bg-gray-50 dark:bg-gray-800 text-sm text-gray-600 dark:text-gray-300">
             <tr>
-              <th className="p-4">Department</th>
-              <th className="p-4">Campus</th>
-              <th className="p-4">Created At</th>
+              <th className="p-4 font-medium">Department</th>
+              <th className="p-4 font-medium">Campus</th>
+              <th className="p-4 font-medium">Created At</th>
             </tr>
           </thead>
 
           <tbody>
             {departments.length === 0 ? (
               <tr>
-                <td colSpan="3" className="p-4 text-center text-gray-500">
+                <td
+                  colSpan="3"
+                  className="p-6 text-center text-gray-500 dark:text-gray-400"
+                >
                   No departments found
                 </td>
               </tr>
             ) : (
               departments.map((dept) => (
-                <tr key={dept._id} className="border-t">
-                  <td className="p-4">{dept.name}</td>
-                  <td className="p-4">
-                    {getCampusName(dept.campusId)}
+                <tr
+                  key={dept._id}
+                  className="
+                    border-t border-gray-100 dark:border-gray-800
+                    hover:bg-gray-50 dark:hover:bg-gray-800/50
+                    transition
+                  "
+                >
+                  <td className="p-4 text-gray-800 dark:text-gray-200">
+                    {dept.name}
                   </td>
-                  <td className="p-4">
+                  <td className="p-4 text-gray-600 dark:text-gray-400">
+              
+                    {dept.campusId?.name || "Unknown"}
+                  </td>
+                  <td className="p-4 text-gray-600 dark:text-gray-400">
                     {new Date(dept.createdAt).toLocaleDateString()}
                   </td>
                 </tr>
@@ -122,8 +210,10 @@ const DepartmentsPage = () => {
           </tbody>
         </table>
       </div>
-    </div>
-  );
+    </section>
+
+  </div>
+);
 };
 
 export default DepartmentsPage;
