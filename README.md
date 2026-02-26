@@ -1,5 +1,13 @@
 🎓 Admission Management & CRM System
 Full-Stack Academic Admission & Seat Allocation Platform
+
+🔗 Live Demo
+
+ 🔗 Frontend (Netlify): https://college-crm.netlify.app/login
+
+<img width="2547" height="1344" alt="image" src="https://github.com/user-attachments/assets/ea81a90e-1c19-4a9a-ba90-2316ca5097ad" />
+
+
 🚀 Overview
 
 A production-grade Admission Management CRM System designed to manage the complete academic admission lifecycle — from institutional setup to final admission confirmation — with quota-aware seat allocation and real-time dashboard analytics.
@@ -77,6 +85,39 @@ Render Deployment
 
 📁 Project Structure
 📦 Root Structure
+
+## 📁 Project Structure
+
+```bash
+admission-crm/
+│
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── layouts/
+│   │   ├── pages/
+│   │   ├── utils/
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
+│   ├── package.json
+│   └── vite.config.js
+│
+├── backend/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── server.js
+│   └── .env
+│
+└── README.md
+```
+
 admission-crm/
 │
 ├── frontend/
