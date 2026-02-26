@@ -1,26 +1,71 @@
-const express = require('express')
-const router = express.Router()
+// const express = require('express')
+// const router = express.Router()
+
+// const {
+//   createDepartment,
+//   getDepartments,
+//   getDepartmentById,
+//   getDepartmentsByCampus,
+// } = require('../controllers/departmentController')
+
+// const { protect } = require('../middleware/authMiddleware')
+// const { authorizeRoles } = require('../middleware/roleMiddleware')
+
+
+// router.post('/', protect, authorizeRoles('Admin'), createDepartment)
+
+
+// router.get('/', protect, getDepartments)
+
+
+// router.get('/campus/:campusId', protect, getDepartmentsByCampus)
+
+
+// router.get('/:id', protect, getDepartmentById)
+
+// module.exports = router
+
+
+
+const express = require("express");
+const router = express.Router();
+
+const { protect } = require("../middleware/authMiddleware");
+const { authorizeRoles } = require("../middleware/roleMiddleware");
 
 const {
   createDepartment,
   getDepartments,
   getDepartmentById,
   getDepartmentsByCampus,
-} = require('../controllers/departmentController')
+} = require("../controllers/departmentController");
 
-const { protect } = require('../middleware/authMiddleware')
-const { authorizeRoles } = require('../middleware/roleMiddleware')
+router.post(
+  "/",
+  protect,
+  authorizeRoles("Admin"),
+  createDepartment
+);
 
-// Create Department (Admin only)
-router.post('/', protect, authorizeRoles('Admin'), createDepartment)
+router.get(
+  "/",
+  protect,
+  authorizeRoles("Admin"),
+  getDepartments
+);
 
-// Get all departments
-router.get('/', protect, getDepartments)
+router.get(
+  "/campus/:campusId",
+  protect,
+  authorizeRoles("Admin"),
+  getDepartmentsByCampus
+);
 
-// Get by campus
-router.get('/campus/:campusId', protect, getDepartmentsByCampus)
+router.get(
+  "/:id",
+  protect,
+  authorizeRoles("Admin"),
+  getDepartmentById
+);
 
-// Get by id
-router.get('/:id', protect, getDepartmentById)
-
-module.exports = router
+module.exports = router;

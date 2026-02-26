@@ -1,26 +1,73 @@
-const express = require('express')
-const router = express.Router()
+// const express = require('express')
+// const router = express.Router()
+
+// const {
+//   createInstitution,
+//   getInstitutions,
+//   getInstitutionById,
+//   getFullStructure,
+// } = require('../controllers/institutionController')
+
+// const { protect } = require('../middleware/authMiddleware')
+// const { authorizeRoles } = require('../middleware/roleMiddleware')
+
+
+// router.post('/', protect, authorizeRoles('Admin'), createInstitution)
+
+
+// router.get('/full-structure', protect, getFullStructure)
+
+// router.get('/', protect, getInstitutions)
+
+// router.get('/:id', protect, getInstitutionById)
+
+// module.exports = router
+
+
+
+const express = require("express");
+const router = express.Router();
+
+const { protect } = require("../middleware/authMiddleware");
+const { authorizeRoles } = require("../middleware/roleMiddleware");
 
 const {
   createInstitution,
   getInstitutions,
   getInstitutionById,
   getFullStructure,
-} = require('../controllers/institutionController')
+} = require("../controllers/institutionController");
 
-const { protect } = require('../middleware/authMiddleware')
-const { authorizeRoles } = require('../middleware/roleMiddleware')
+// Create Institution
+router.post(
+  "/",
+  protect,
+  authorizeRoles("Admin"),
+  createInstitution
+);
 
-// Create Institution (Admin only)
-router.post('/', protect, authorizeRoles('Admin'), createInstitution)
+// Get all institutions
+router.get(
+  "/",
+  protect,
+  authorizeRoles("Admin"),
+  getInstitutions
+);
 
-// Get full structure  ✅ move this up
-router.get('/full-structure', protect, getFullStructure)
+// Get full hierarchy
+router.get(
+  "/full-structure",
+  protect,
+  authorizeRoles("Admin"),
+  getFullStructure
+);
 
-// Get all Institutions
-router.get('/', protect, getInstitutions)
+// Get by ID
+router.get(
+  "/:id",
+  protect,
+  authorizeRoles("Admin"),
+  getInstitutionById
+);
 
-// Get Institution by ID
-router.get('/:id', protect, getInstitutionById)
-
-module.exports = router
+module.exports = router;

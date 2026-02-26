@@ -1,26 +1,70 @@
-const express = require('express')
-const router = express.Router()
+// const express = require('express')
+// const router = express.Router()
+
+// const {
+//   createProgram,
+//   getPrograms,
+//   getProgramById,
+//   getProgramsByDepartment,
+// } = require('../controllers/programController')
+
+// const { protect } = require('../middleware/authMiddleware')
+// const { authorizeRoles } = require('../middleware/roleMiddleware')
+
+
+// router.post('/', protect, authorizeRoles('Admin'), createProgram)
+
+
+// router.get('/', protect, getPrograms)
+
+
+// router.get('/department/:departmentId', protect, getProgramsByDepartment)
+
+// router.get('/:id', protect, getProgramById)
+
+// module.exports = router
+
+
+
+const express = require("express");
+const router = express.Router();
+
+const { protect } = require("../middleware/authMiddleware");
+const { authorizeRoles } = require("../middleware/roleMiddleware");
 
 const {
   createProgram,
   getPrograms,
   getProgramById,
   getProgramsByDepartment,
-} = require('../controllers/programController')
+} = require("../controllers/programController");
 
-const { protect } = require('../middleware/authMiddleware')
-const { authorizeRoles } = require('../middleware/roleMiddleware')
+router.post(
+  "/",
+  protect,
+  authorizeRoles("Admin"),
+  createProgram
+);
 
-// Create Program (Admin only)
-router.post('/', protect, authorizeRoles('Admin'), createProgram)
+router.get(
+  "/",
+  protect,
+  authorizeRoles("Admin"),
+  getPrograms
+);
 
-// Get all programs
-router.get('/', protect, getPrograms)
+router.get(
+  "/department/:departmentId",
+  protect,
+  authorizeRoles("Admin"),
+  getProgramsByDepartment
+);
 
-// Get programs by department
-router.get('/department/:departmentId', protect, getProgramsByDepartment)
+router.get(
+  "/:id",
+  protect,
+  authorizeRoles("Admin"),
+  getProgramById
+);
 
-// Get program by id
-router.get('/:id', protect, getProgramById)
-
-module.exports = router
+module.exports = router;
